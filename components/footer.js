@@ -8,7 +8,7 @@ class Footer extends HTMLElement {
         <footer>
         <div class="footer-column">
             <div id="footer-logo">
-                <a id="bucket-bounds-title-anchor" href="/">
+                <a id="bucket-bounds-title-anchor" href="/ccya-project">
                     <div class='img-container'>
                         <img src='/ccya-project/assets/bucket_icon.webp'>
                     </div>
