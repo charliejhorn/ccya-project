@@ -9,7 +9,7 @@ class Header extends HTMLElement {
         <div id="header-title-container">
             <a id="bucket-bounds-title-anchor" href="/">
                 <div class='img-container'>
-                    <img src='/assets/bucket_icon.webp'>
+                    <img src='/ccya-project/assets/bucket_icon.webp'>
                 </div>
 
                 <div id='bucketbounds-svg-container'>
