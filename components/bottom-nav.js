@@ -7,7 +7,7 @@ class BottomNav extends HTMLElement {
         this.innerHTML = `
             <nav id="bottom-nav-bar">
                 <div class="bottom-nav-bar-link-container">
-                    <a class='bottom-nav-bar-anchor' href="/destination-list.html">
+                    <a class='bottom-nav-bar-anchor' href="/ccya-project/destination-list.html">
                         <span class='bottom-nav-bar-icon material-symbols-outlined' alt="browse destinations icon">
                             travel_explore
                         </span>
@@ -15,7 +15,7 @@ class BottomNav extends HTMLElement {
                     </a>
                 </div>
                 <div class="bottom-nav-bar-link-container">
-                    <a class='bottom-nav-bar-anchor' href="/html/destination-edit.html">
+                    <a class='bottom-nav-bar-anchor' href="/ccya-project/html/destination-edit.html">
                         <span class='bottom-nav-bar-icon material-symbols-outlined' alt="browse destinations icon">
                             add_location
                         </span>

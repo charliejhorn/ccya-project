@@ -116,13 +116,13 @@ class Header extends HTMLElement {
         <div id="header-nav-container">
             <nav id="header-nav">
                 <section id="header-nav-links-container">
-                    <a class="bounce-button header-nav-link" href="/destination-list.html">
+                    <a class="bounce-button header-nav-link" href="/ccya-project/destination-list.html">
                         <span class='header-nav-bar-icon material-symbols-outlined' alt="browse destinations icon">
                             travel_explore
                         </span>
                         <h6>browse destinations</h6>
                     </a>
-                    <a class="bounce-button header-nav-link" href="/html/destination-edit.html">
+                    <a class="bounce-button header-nav-link" href="/ccya-project/html/destination-edit.html">
                         <span class='header-nav-bar-icon material-symbols-outlined' alt="browse destinations icon">
                             add_location
                         </span>

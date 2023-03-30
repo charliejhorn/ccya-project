@@ -130,13 +130,13 @@ class Footer extends HTMLElement {
                     <a href="/">Home</a>
                 </li>
                 <li class="footer-li">
-                    <a href="/destination-list.html">Browse Destinations</a>
+                    <a href="/ccya-project/destination-list.html">Browse Destinations</a>
                 </li>
                 <li class="footer-li">
-                    <a href="/html/destination-edit.html">Create Destination</a>
+                    <a href="/ccya-project/html/destination-edit.html">Create Destination</a>
                 </li>
                 <li class="footer-li">
-                    <a href="/html/destinations/destination-template.html">Destination Template</a>
+                    <a href="/ccya-project/html/destinations/destination-template.html">Destination Template</a>
                 </li>
             </ul>
         </div>
