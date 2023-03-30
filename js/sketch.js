@@ -7,10 +7,12 @@
       initialYPos: #,
       motionRadius: #,
       speed = #,
-      nodeMotionRadius: #,
+      nodeXMotionRadius: #,
+      nodeYMotionRadius: #,
       sinPos: 0 or 1, (then incrementing)
       nodes = [
         {
+          initialX: x,
           xPos: x,
           yPos: y,
           speed: #,
@@ -24,13 +26,14 @@
 let waves = [];
 const canvasDetails = {};
 
-const numOfWaves = 3;
-const waveMotionRadius = 18;
+const numOfWaves = 5;
+const waveMotionRadius = 15;
 const waveSpeed = 0.007;
-const colour = 'darkblue';
-const weight = 5;
+const colour = '#2667FF';
+const weight = 10;
 const nodesPerWave = 10;
-const nodeMotionRadius = 20;
+const nodeXMotionRadius = 12;
+const nodeYMotionRadius = 20; 
 const nodeSpeed = 0.004;
 
 function getCanvasDetails() {
@@ -46,7 +49,7 @@ function setup() {
   const sketchCanvas = createCanvas(canvasDetails.width, canvasDetails.height);
   sketchCanvas.parent(canvasDetails.element);
 
-  createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeMotionRadius, nodeSpeed)
+  createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeXMotionRadius, nodeYMotionRadius, nodeSpeed)
   
   frameRate(60)
   
@@ -60,7 +63,7 @@ function setup() {
 }
 
 function draw() {
-  background('lightblue');
+  background('#3F8EFC');
   
   // move nodes in each wave
   for(let wave of waves) {
@@ -100,8 +103,10 @@ function windowResized() {
   // clear waves object
   waves = [];
   console.log('deleted waves');
-  createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeMotionRadius, nodeSpeed)
+  createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeXMotionRadius, nodeYMotionRadius, nodeSpeed)
   console.log('windowresized');
+  console.log('canvas width', width);
+  console.log('eq', width / 100);
 }
 
 function moveWaves() {
@@ -115,12 +120,22 @@ function moveWaves() {
 }
 
 function moveNodes(wave) {
+  let n = 0;
   for(let node of wave.nodes) {
-    // move node according to sin Y value (input of sinPos)
-    node.yPos = (sin(PI * node.sinPos) * wave.nodeMotionRadius + wave.yPos)
+    // move node in x according to sin Y value (sinPos is input)
+    // only IF node is not first or last
+    if(n != 0 && n != wave.nodes.length-1) {
+      // calculate y position on sin graph (-1 to 1), multiply by radius, add to initial x position
+      node.xPos = (sin(PI * node.sinPos) * wave.nodeXMotionRadius + node.initialX)
+    }
 
+    // move node in y according to sin Y value (sinPos is input)
+    // calculate y position on sin graph (-1 to 1), multiply by radius, add to wave y position to position in wave
+    node.yPos = (sin(PI * node.sinPos) * wave.nodeYMotionRadius + wave.yPos)
+    
     // increment sinPos
     node.sinPos += node.speed;
+    n++;
   } 
 }
 
@@ -131,7 +146,7 @@ function drawWaveCurves(wave) {
     noFill()
 
     // set control point difference
-    const cpd = 75
+    const cpd = 100;
 
     // create start and end points
     const startPoint = [wave.nodes[index].xPos, wave.nodes[index].yPos]
@@ -147,14 +162,14 @@ function drawWaveCurves(wave) {
   }
 }
 
-function createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeMotionRadius, nodeSpeed) {
+function createWaves(numOfWaves, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeXMotionRadius, nodeYMotionRadius, nodeSpeed) {
   for(let i = 1; i <= numOfWaves; i++) {
     let yPos = height / (numOfWaves+1) * i;
-    createWave( yPos, yPos, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeMotionRadius, nodeSpeed )
+    createWave( yPos, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeXMotionRadius, nodeYMotionRadius, nodeSpeed )
   }
 }
 
-function createWave( yPos, intialYPos, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeMotionRadius, nodeSpeed ) {
+function createWave( yPos, waveMotionRadius, waveSpeed, colour, weight, nodesPerWave, nodeXMotionRadius, nodeYMotionRadius, nodeSpeed ) {
   // create wave
   let wave = {};
   wave.colour = colour;
@@ -163,7 +178,8 @@ function createWave( yPos, intialYPos, waveMotionRadius, waveSpeed, colour, weig
   wave.initialYPos = yPos;
   wave.motionRadius = waveMotionRadius;
   wave.speed = waveSpeed;
-  wave.nodeMotionRadius = nodeMotionRadius;
+  wave.nodeXMotionRadius = nodeXMotionRadius;
+  wave.nodeYMotionRadius = nodeYMotionRadius;
 
   // wave.sinPos alternate value per WAVE
   if(waves.length % 2 === 0) {
@@ -174,20 +190,21 @@ function createWave( yPos, intialYPos, waveMotionRadius, waveSpeed, colour, weig
 
   wave.nodes = [];
 
+  nodesPerWave = width / 100;
+
   // create nodes for wave.nodes
   for(let i = 0; i < nodesPerWave; i++) {
     let node = {};
     
     // add variation to xPos, while keeping first and last node at edge of window
     if(i === 0) {
-      node.xPos = 0;
+      node.initialX = 0;
     } else if(i != 0 && i != nodesPerWave-1) {
-      node.xPos = round(random(-10, 10) * 1000)/1000 + width / nodesPerWave * i;
-      console.log(node.xPos);
+      node.initialX = round(random(-25, 25) * 1000)/1000 + width / (nodesPerWave-1) * i;
     } else if (i === nodesPerWave-1) {
-      node.xPos = width;
+      node.initialX = width;
     }
-    
+    node.xPos = node.initialX;
     node.yPos = yPos;
     node.speed = nodeSpeed;
 
@@ -209,7 +226,7 @@ function createWave( yPos, intialYPos, waveMotionRadius, waveSpeed, colour, weig
 
   // add wave to waves
   waves.push(wave);
-  console.log('wave:', wave);
+  // console.log('wave:', wave);
 }
 
 function checkChangeDirection(pos, min, max) {
